@@ -8,9 +8,8 @@ C# Playground
 - [x] custom memory allocation for arrays
 - [x] custom "global using" type rebinds
 - [ ] custom manually allocated list
-- [ ] custom hashset
-- [ ] custom hashmap
 - [ ] silk.net manual painting of window texture
-- [ ] integrate hash_test repo
+- [x] integrate hash_test repo
 - [ ] design vsect library
 - [ ] create proper tests
+- [ ] fix broken theme style
