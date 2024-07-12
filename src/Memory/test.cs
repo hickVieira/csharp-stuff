@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
-using Memory;
 
-namespace manual_alloc;
+namespace Memory;
 
-class Person
+public static class test
 {
-	public string Name;
-	public int Age;
-
-	~Person()
+	class Person
 	{
-		Console.WriteLine($"Person {this.Name} destroyed.");
-	}
-}
+		public string Name;
+		public int Age;
 
-class Program
-{
-	unsafe public static void Main(string[] args)
+		~Person()
+		{
+			Console.WriteLine($"Person {this.Name} destroyed.");
+		}
+	}
+
+	unsafe public static void run()
 	{
 		Console.WriteLine($"start memory: {Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024}MB");
-		for (int i = 0; i < 200000; i++)
+		for (int i = 0; i < 10000; i++)
 		{
 			mem.alloc(out Person person1);
 			person1.Name = "Thomas";
@@ -31,7 +30,7 @@ class Program
 			mem.bind(out Person person2, (nint)storage);
 			person2.Name = "Max";
 			person2.Age = 24;
-			Console.WriteLine($"{person2.Name} is {person2.Age} years old.");
+			// Console.WriteLine($"{person2.Name} is {person2.Age} years old.");
 
 			mem.free(ref person1);
 

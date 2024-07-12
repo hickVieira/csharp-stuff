@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HASH;
+namespace GUID;
 
-public static class hash
+public static class hashers
 {
     private class crc32
     {
@@ -13,7 +13,6 @@ public static class hash
 
         public crc32()
         {
-            // Constructs the checksum lookup table. Used to optimize the checksum.
             if (_checksumTable == null || _checksumTable.Length == 0)
                 _checksumTable = Enumerable.Range(0, 256).Select(i =>
                 {
@@ -30,7 +29,6 @@ public static class hash
 
         public uint ComputeHash<T>(IEnumerable<T> byteStream)
         {
-            // Initialize checksumRegister to 0xFFFFFFFF and calculate the checksum.
             return ~byteStream.Aggregate(0xFFFFFFFF, (checksumRegister, currentByte) => _checksumTable[(checksumRegister & 0xFF) ^ Convert.ToByte(currentByte)] ^ (checksumRegister >> 8));
         }
     }
