@@ -47,4 +47,3 @@ public struct source_mesh
     public vertex[] vertices;
     public source_triangle[] triangles;
 }
-
