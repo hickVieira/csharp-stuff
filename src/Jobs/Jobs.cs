@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,8 @@ public static class test
 {
     public static void run()
     {
-        const int arraySize = 1024 * 1024 * 4;
+        const int arraySize = 1024 * 1024 * 1024;
         var arr = new int[arraySize];
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < arraySize; ++i)
@@ -20,7 +20,6 @@ public static class test
 
             Console.WriteLine($"for - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < arraySize; i += 2)
@@ -32,7 +31,6 @@ public static class test
 
             Console.WriteLine($"for2 - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < arraySize; i += 4)
@@ -46,7 +44,6 @@ public static class test
 
             Console.WriteLine($"for4 - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < arraySize; i += 8)
@@ -64,7 +61,6 @@ public static class test
 
             Console.WriteLine($"for8 - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < arraySize; i += 16)
@@ -90,7 +86,6 @@ public static class test
 
             Console.WriteLine($"for16 - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             foreach (var i in arr)
@@ -99,15 +94,48 @@ public static class test
 
             Console.WriteLine($"foreach - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            Parallel.For(0, arraySize, i => arr[i] = i);
+            Parallel.For(0, arraySize, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 4 }, (i) => arr[i] = i);
             timer.Stop();
 
-            Console.WriteLine($"Parallel.For - {timer.Elapsed.TotalMilliseconds}ms");
+            Console.WriteLine($"Parallel.For 0.25 - {timer.Elapsed.TotalMilliseconds}ms");
         }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.For(0, arraySize, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 }, (i) => arr[i] = i);
+            timer.Stop();
 
+            Console.WriteLine($"Parallel.For 0.5 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.For(0, arraySize, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 1 }, (i) => arr[i] = i);
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.For 1 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.For(0, arraySize, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 }, (i) => arr[i] = i);
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.For 2 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.For(0, arraySize, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 4 }, (i) => arr[i] = i);
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.For 4 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.For(0, arraySize, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 8 }, (i) => arr[i] = i);
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.For 8 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             Parallel.ForEach(Enumerable.Range(0, arraySize), i => arr[i] = i);
@@ -115,21 +143,93 @@ public static class test
 
             Console.WriteLine($"Parallel.ForEach - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            Parallel.ForAsync(0, arraySize, async (i, _) => await Task.Run(() => arr[i] = i)).Wait();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
             timer.Stop();
 
-            Console.WriteLine($"Parallel.ForAsync - {timer.Elapsed.TotalMilliseconds}ms");
+            Console.WriteLine($"Parallel.ForEach.Partitioner - {timer.Elapsed.TotalMilliseconds}ms");
         }
-
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            Parallel.ForEachAsync(Enumerable.Range(0, arraySize), async (i, _) => await Task.Run(() => arr[i] = i)).Wait();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 1)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
             timer.Stop();
 
-            Console.WriteLine($"Parallel.ForEachAsync - {timer.Elapsed.TotalMilliseconds}ms");
+            Console.WriteLine($"Parallel.ForEach.Partitioner 1 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 2)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.ForEach.Partitioner 2 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 4)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.ForEach.Partitioner 4 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 8)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.ForEach.Partitioner 8 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 16)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.ForEach.Partitioner 16 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 32)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.ForEach.Partitioner 32 - {timer.Elapsed.TotalMilliseconds}ms");
+        }
+        {
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            Parallel.ForEach(Partitioner.Create(0, arr.Length, arr.Length / (Environment.ProcessorCount * 64)), range =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    arr[i] = i;
+            });
+            timer.Stop();
+
+            Console.WriteLine($"Parallel.ForEach.Partitioner 64 - {timer.Elapsed.TotalMilliseconds}ms");
         }
     }
 }

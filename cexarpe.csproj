@@ -5,6 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>8981;1006</NoWarn>
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
