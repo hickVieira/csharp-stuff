@@ -4,15 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>8981;1006</NoWarn>
+    <NoWarn>8981;1006;8500</NoWarn>
     <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Silk.NET.Core" Version="2.21.0" />
-    <PackageReference Include="Silk.NET.Input" Version="2.21.0" />
-    <PackageReference Include="Silk.NET.Maths" Version="2.21.0" />
-    <PackageReference Include="Silk.NET.Windowing" Version="2.21.0" />
+    <PackageReference Include="OpenTK" Version="4.8.2" />
   </ItemGroup>
 
 </Project>

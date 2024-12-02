@@ -2,20 +2,20 @@ namespace Matematica;
 
 public struct vec2T<T> where T : struct
 {
-    public float x, y;
+    public f32 x, y;
 
     #region constructors
-    public vec2T(float x, float y) => (this.x, this.y) = (x, y);
+    public vec2T(f32 x, f32 y) => (this.x, this.y) = (x, y);
     #endregion
 
     #region accessors
-    public float r => x;
-    public float g => y;
+    public f32 r => x;
+    public f32 g => y;
 
     public vec2T<T> xy => this;
     public vec2T<T> yx => new(y, x);
 
-    public vec2T<T> rg => new(x, y);
+    public vec2T<T> rg => this;
     public vec2T<T> gr => new(y, x);
     #endregion
 
@@ -24,9 +24,9 @@ public struct vec2T<T> where T : struct
     public static vec2T<T> operator -(vec2T<T> a, vec2T<T> b) => new(a.x - b.x, a.y - b.y);
     public static vec2T<T> operator -(vec2T<T> a) => new(-a.x, -a.y);
 
-    public static vec2T<T> operator *(vec2T<T> a, float b) => new(a.x * b, a.y * b);
-    public static vec2T<T> operator *(float b, vec2T<T> a) => new(a.x * b, a.y * b);
-    public static vec2T<T> operator /(vec2T<T> a, float b) => new(a.x / b, a.y / b);
+    public static vec2T<T> operator *(vec2T<T> a, f32 b) => new(a.x * b, a.y * b);
+    public static vec2T<T> operator *(f32 b, vec2T<T> a) => new(a.x * b, a.y * b);
+    public static vec2T<T> operator /(vec2T<T> a, f32 b) => new(a.x / b, a.y / b);
 
     public static vec2T<T> operator *(vec2T<T> a, vec2T<T> b) => new(a.x * b.x, a.y * b.y);
     public static vec2T<T> operator /(vec2T<T> a, vec2T<T> b) => new(a.x / b.x, a.y / b.y);
@@ -34,7 +34,7 @@ public struct vec2T<T> where T : struct
     public static bool operator ==(vec2T<T> a, vec2T<T> b) => a.x == b.x && a.y == b.y;
     public static bool operator !=(vec2T<T> a, vec2T<T> b) => a.x != b.x || a.y != b.y;
 
-    public static implicit operator vec2T<T>(float v) => new(v, v);
+    public static implicit operator vec2T<T>(f32 v) => new(v, v);
     #endregion
 
     #region methods

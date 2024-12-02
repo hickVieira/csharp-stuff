@@ -1,16 +1,14 @@
-using Matematica;
 using static Matematica.math;
-using lib;
 
 namespace vsect;
 
 public struct vertex
 {
-    public vec3 position;
-    public vec3 normal;
-    public vec4 tangent;
-    public vec4 uv01;
-    public bw4 boneweight;
+    public float3 position;
+    public float3 normal;
+    public float4 tangent;
+    public float4 uv01;
+    public boneweight4 boneweight;
 }
 
 public struct char_vertex
@@ -32,7 +30,7 @@ public struct source_triangle
 public struct source_skeleton
 {
     public transform[] bones;
-    public vec4x4[] bindposes;
+    public float4x4[] bindposes;
 
     public limb[] limbs;
 

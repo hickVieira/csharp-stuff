@@ -1,11 +1,11 @@
-namespace lib;
+namespace vsect;
 
-public struct vec3;
-public struct vec4;
-public struct vec3x3;
-public struct vec4x4;
+public struct float3;
+public struct float4;
+public struct float3x3;
+public struct float4x4;
 
-public struct bw4;
+public struct boneweight4;
 
 public struct transform;
 public struct bone;
