@@ -8,17 +8,6 @@ public struct vec2T<T> where T : struct
     public vec2T(f32 x, f32 y) => (this.x, this.y) = (x, y);
     #endregion
 
-    #region accessors
-    public f32 r => x;
-    public f32 g => y;
-
-    public vec2T<T> xy => this;
-    public vec2T<T> yx => new(y, x);
-
-    public vec2T<T> rg => this;
-    public vec2T<T> gr => new(y, x);
-    #endregion
-
     #region operators
     public static vec2T<T> operator +(vec2T<T> a, vec2T<T> b) => new(a.x + b.x, a.y + b.y);
     public static vec2T<T> operator -(vec2T<T> a, vec2T<T> b) => new(a.x - b.x, a.y - b.y);

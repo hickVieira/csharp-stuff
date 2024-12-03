@@ -8,17 +8,6 @@ public struct float2
     public float2(f32 x, f32 y) => (this.x, this.y) = (x, y);
     #endregion
 
-    #region accessors
-    public f32 r => x;
-    public f32 g => y;
-
-    public float2 xy => this;
-    public float2 yx => new(y, x);
-
-    public float2 rg => this;
-    public float2 gr => new(y, x);
-    #endregion
-
     #region operators
     public static float2 operator +(float2 a, float2 b) => new(a.x + b.x, a.y + b.y);
     public static float2 operator -(float2 a, float2 b) => new(a.x - b.x, a.y - b.y);
