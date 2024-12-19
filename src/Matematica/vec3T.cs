@@ -9,21 +9,21 @@ public struct vec3T<T> where T : struct
     #endregion
 
     #region operators
-    public static vec3T<T> operator +(vec3T<T> a, vec3T<T> b) => new(a.x + b.x, a.y + b.y);
-    public static vec3T<T> operator -(vec3T<T> a, vec3T<T> b) => new(a.x - b.x, a.y - b.y);
-    public static vec3T<T> operator -(vec3T<T> a) => new(-a.x, -a.y);
+    public static vec3T<T> operator +(vec3T<T> a, vec3T<T> b) => new(a.x + b.x, a.y + b.y, a.z + b.z);
+    public static vec3T<T> operator -(vec3T<T> a, vec3T<T> b) => new(a.x - b.x, a.y - b.y, a.z - b.z);
+    public static vec3T<T> operator -(vec3T<T> a) => new(-a.x, -a.y, -a.z);
 
-    public static vec3T<T> operator *(vec3T<T> a, f32 b) => new(a.x * b, a.y * b);
-    public static vec3T<T> operator *(f32 b, vec3T<T> a) => new(a.x * b, a.y * b);
-    public static vec3T<T> operator /(vec3T<T> a, f32 b) => new(a.x / b, a.y / b);
+    public static vec3T<T> operator *(vec3T<T> a, f32 b) => new(a.x * b, a.y * b, a.z * b);
+    public static vec3T<T> operator *(f32 b, vec3T<T> a) => new(b * a.x, b * a.y, b * a.z);
+    public static vec3T<T> operator /(vec3T<T> a, f32 b) => new(a.x / b, a.y / b, a.z / b);
 
-    public static vec3T<T> operator *(vec3T<T> a, vec3T<T> b) => new(a.x * b.x, a.y * b.y);
-    public static vec3T<T> operator /(vec3T<T> a, vec3T<T> b) => new(a.x / b.x, a.y / b.y);
+    public static vec3T<T> operator *(vec3T<T> a, vec3T<T> b) => new(a.x * b.x, a.y * b.y, a.z * b.z);
+    public static vec3T<T> operator /(vec3T<T> a, vec3T<T> b) => new(a.x / b.x, a.y / b.y, a.z / b.z);
 
-    public static bool operator ==(vec3T<T> a, vec3T<T> b) => a.x == b.x && a.y == b.y;
-    public static bool operator !=(vec3T<T> a, vec3T<T> b) => a.x != b.x || a.y != b.y;
+    public static bool operator ==(vec3T<T> a, vec3T<T> b) => a.x == b.x && a.y == b.y && a.z == b.z;
+    public static bool operator !=(vec3T<T> a, vec3T<T> b) => a.x != b.x || a.y != b.y || a.z != b.z;
 
-    public static implicit operator vec3T<T>(f32 v) => new(v, v);
+    public static implicit operator vec3T<T>(f32 v) => new(v, v, v);
     #endregion
 
     #region methods

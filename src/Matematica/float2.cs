@@ -14,7 +14,7 @@ public struct float2
     public static float2 operator -(float2 a) => new(-a.x, -a.y);
 
     public static float2 operator *(float2 a, f32 b) => new(a.x * b, a.y * b);
-    public static float2 operator *(f32 b, float2 a) => new(a.x * b, a.y * b);
+    public static float2 operator *(f32 b, float2 a) => new(b * a.x, b * a.y);
     public static float2 operator /(float2 a, f32 b) => new(a.x / b, a.y / b);
 
     public static float2 operator *(float2 a, float2 b) => new(a.x * b.x, a.y * b.y);

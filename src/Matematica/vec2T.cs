@@ -14,7 +14,7 @@ public struct vec2T<T> where T : struct
     public static vec2T<T> operator -(vec2T<T> a) => new(-a.x, -a.y);
 
     public static vec2T<T> operator *(vec2T<T> a, f32 b) => new(a.x * b, a.y * b);
-    public static vec2T<T> operator *(f32 b, vec2T<T> a) => new(a.x * b, a.y * b);
+    public static vec2T<T> operator *(f32 b, vec2T<T> a) => new(b * a.x, b * a.y);
     public static vec2T<T> operator /(vec2T<T> a, f32 b) => new(a.x / b, a.y / b);
 
     public static vec2T<T> operator *(vec2T<T> a, vec2T<T> b) => new(a.x * b.x, a.y * b.y);
