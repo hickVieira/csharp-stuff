@@ -1,7 +1,6 @@
-namespace Game.Base;
-
-public class Cell : I.Serializable
+namespace Game.Base
 {
-    public string SerializeToString() => Formatter.Serialize.ToString(this);
-    public string SerializeToStringVersioned(uint version) => Formatter.Serialize.ToStringVersioned(version, this);
+    public class Cell : Entity
+    {
+    }
 }

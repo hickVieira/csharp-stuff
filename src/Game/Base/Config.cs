@@ -1,6 +1,6 @@
 namespace Game.Base
 {
-    public class Object : Entity
+    public class Config : Entity
     {
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Game;
 
@@ -9,7 +11,6 @@ public class Map<TKey, TValue> : Dictionary<TKey, TValue>;
 public struct GUID : I.Serializable
 {
     public string SerializeToString() => Formatter.Serialize.ToString(this);
-    public string SerializeToStringVersioned(uint version) => Formatter.Serialize.ToStringVersioned(version, this);
 
     public uint id { get; set; } = 0;
 
@@ -18,17 +19,44 @@ public struct GUID : I.Serializable
     public static GUID None { get => new GUID(0); }
 }
 
-public struct Ref<T> : I.Serializable where T : Base.Object
+public class Ref<T> : I.Serializable where T : I.Referenciable
 {
-    public string SerializeToString() => Formatter.Serialize.ToString(this);
-    public string SerializeToStringVersioned(uint version) => Formatter.Serialize.ToStringVersioned(version, this);
+    class Converter : JsonConverter<Ref<T>>
+    {
+        public override void WriteJson(JsonWriter writer, Ref<T> value, JsonSerializer serializer)
+        {
+            var jsonObject = new JObject
+            {
+                ["guid"] = JToken.FromObject(value.guid, serializer),
+            };
+            jsonObject.WriteTo(writer);
+        }
+
+        public override Ref<T> ReadJson(JsonReader reader, Type objectType, Ref<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var jsonObject = JObject.Load(reader);
+            GUID guid = jsonObject["guid"].ToObject<GUID>();
+            return new Ref<T>
+            {
+                id = guid.id,
+                entity = (T)Manager.World.Get(guid),
+            };
+        }
+    }
+
+    public string SerializeToString() => Formatter.Serialize.ToString(this, new Converter());
 
     public uint id { get; set; } = 0;
-    [JsonIgnore] public T @object { get; set; }
+    public T entity { get; set; } = default;
 
-    public Ref() => (this.id, this.@object) = (0, null);
-    public Ref(uint id) => (this.id, this.@object) = (id, null);
-    public Ref(uint id, T obj) => (this.id, this.@object) = (id, obj);
+    public Ref() => (this.id, this.entity) = (0, default);
+    public Ref(uint id) => (this.id, this.entity) = (id, default);
+    public Ref(uint id, T obj) => (this.id, this.entity) = (id, obj);
     public GUID guid { get => new GUID(this.id); }
     public static Ref<T> None { get => new Ref<T>(0, default); }
+}
+
+public static partial class _
+{
+    public static Ref<T> Ref<T>(this T obj) where T : I.Referenciable => new Ref<T>(obj.guid.id, obj);
 }

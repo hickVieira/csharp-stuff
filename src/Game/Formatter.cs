@@ -31,10 +31,14 @@ public static class Formatter
     public static class Serialize
     {
         public static string ToString<T>(T obj) => JsonConvert.SerializeObject(obj);
+        public static string ToString<T>(T obj, params JsonConverter[] converters) => JsonConvert.SerializeObject(obj, converters);
         public static byte[] ToBytes<T>(T obj) => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj));
+        public static byte[] ToBytes<T>(T obj, params JsonConverter[] converters) => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj, converters));
 
         public static string ToStringVersioned<T>(uint version, T obj) => JsonConvert.SerializeObject(new VersionedData<T>(version, obj));
+        public static string ToStringVersioned<T>(uint version, T obj, params JsonConverter[] converters) => JsonConvert.SerializeObject(new VersionedData<T>(version, obj), converters);
         public static byte[] ToBytesVersioned<T>(uint version, T obj) => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new VersionedData<T>(version, obj)));
+        public static byte[] ToBytesVersioned<T>(uint version, T obj, params JsonConverter[] converters) => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new VersionedData<T>(version, obj), converters));
     }
 
     public static class Deserialize

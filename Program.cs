@@ -5,6 +5,6 @@ static class Program
         // GUID.test.run();
         // Memory.test.run();
         // Jobs.test.run();
-        Game.Tests.Run();
+        Game.Tests._.Run();
     }
 }
