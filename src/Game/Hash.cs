@@ -1,4 +1,4 @@
-namespace GUID;
+namespace Game;
 
 public static class Hash
 {

@@ -33,6 +33,71 @@ public static class test
         Console.Write("random inputs count = ");
         int randomInputsCount = int.Parse(Console.ReadLine());
 
+        // guid_Int16
+        {
+            HashSet<Int16> hashes = new HashSet<Int16>();
+            long elapsedMS = 0;
+            uint collisionCount = 0;
+            for (int i = 0; i < randomInputsCount; i++)
+            {
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                Int16 Int16 = Hash.Generate.Int16(i);
+                timer.Stop();
+
+                elapsedMS += timer.ElapsedMilliseconds;
+
+                if (hashes.Contains(Int16))
+                    collisionCount++;
+                else
+                    hashes.Add(Int16);
+            }
+            Console.WriteLine($"Int16 - timeMS:{elapsedMS} collisions:{collisionCount}");
+        }
+
+        // guid_Int32
+        {
+            HashSet<Int32> hashes = new HashSet<Int32>();
+            long elapsedMS = 0;
+            uint collisionCount = 0;
+            for (int i = 0; i < randomInputsCount; i++)
+            {
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                Int32 Int32 = Hash.Generate.Int32(i);
+                timer.Stop();
+
+                elapsedMS += timer.ElapsedMilliseconds;
+
+                if (hashes.Contains(Int32))
+                    collisionCount++;
+                else
+                    hashes.Add(Int32);
+            }
+            Console.WriteLine($"Int32 - timeMS:{elapsedMS} collisions:{collisionCount}");
+        }
+
+        // guid_Int64
+        {
+            HashSet<Int64> hashes = new HashSet<Int64>();
+            long elapsedMS = 0;
+            uint collisionCount = 0;
+            for (int i = 0; i < randomInputsCount; i++)
+            {
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                Int64 Int64 = Hash.Generate.Int64(i);
+                timer.Stop();
+
+                elapsedMS += timer.ElapsedMilliseconds;
+
+                if (hashes.Contains(Int64))
+                    collisionCount++;
+                else
+                    hashes.Add(Int64);
+            }
+            Console.WriteLine($"Int64 - timeMS:{elapsedMS} collisions:{collisionCount}");
+        }
+
+        return;
+
         // guid_8
         {
             HashSet<string> hashes = new HashSet<string>();
@@ -62,7 +127,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                string guid_random_hex_string8 = guid.rand(guid.Type.HexadecimalLower, 8, new Random(i));
+                string guid_random_hex_string8 = Hash.Generate.String(Hash.Type.HexadecimalLower, 8, new Random(i));
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -83,7 +148,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                long guid_random_hex_long = Convert.ToInt64(guid.rand(guid.Type.HexadecimalLower, 16, new Random(i)), 16);
+                long guid_random_hex_long = Convert.ToInt64(Hash.Generate.String(Hash.Type.HexadecimalLower, 16, new Random(i)), 16);
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -104,7 +169,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                int guid_random_hex_int = Convert.ToInt32(guid.rand(guid.Type.HexadecimalLower, 8, new Random(i)), 16);
+                int guid_random_hex_int = Convert.ToInt32(Hash.Generate.String(Hash.Type.HexadecimalLower, 8, new Random(i)), 16);
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -125,7 +190,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                short guid_random_hex_short = Convert.ToInt16(guid.rand(guid.Type.HexadecimalLower, 4, new Random(i)), 16);
+                short guid_random_hex_short = Convert.ToInt16(Hash.Generate.String(Hash.Type.HexadecimalLower, 4, new Random(i)), 16);
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -146,7 +211,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                ulong guid_random_hex_ulong = Convert.ToUInt64(guid.rand(guid.Type.HexadecimalLower, 16, new Random(i)), 16);
+                ulong guid_random_hex_ulong = Convert.ToUInt64(Hash.Generate.String(Hash.Type.HexadecimalLower, 16, new Random(i)), 16);
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -167,7 +232,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                uint guid_random_hex_uint = Convert.ToUInt32(guid.rand(guid.Type.HexadecimalLower, 8, new Random(i)), 16);
+                uint guid_random_hex_uint = Convert.ToUInt32(Hash.Generate.String(Hash.Type.HexadecimalLower, 8, new Random(i)), 16);
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -188,7 +253,7 @@ public static class test
             for (int i = 0; i < randomInputsCount; i++)
             {
                 var timer = System.Diagnostics.Stopwatch.StartNew();
-                ushort guid_random_hex_ushort = Convert.ToUInt16(guid.rand(guid.Type.HexadecimalLower, 4, new Random(i)), 16);
+                ushort guid_random_hex_ushort = Convert.ToUInt16(Hash.Generate.String(Hash.Type.HexadecimalLower, 4, new Random(i)), 16);
                 timer.Stop();
 
                 elapsedMS += timer.ElapsedMilliseconds;
@@ -208,7 +273,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -234,7 +299,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -260,7 +325,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -286,7 +351,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -312,7 +377,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -336,7 +401,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -360,7 +425,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -384,7 +449,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -408,7 +473,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
@@ -432,7 +497,7 @@ public static class test
             uint collisionCount = 0;
             for (int i = 0; i < randomInputsCount; i++)
             {
-                string inputString = guid.rand(guid.Type.AlphanumericAll, maxInputLength, new Random(i));
+                string inputString = Hash.Generate.String(Hash.Type.AlphanumericAll, maxInputLength, new Random(i));
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(inputString);
 
                 var timer = System.Diagnostics.Stopwatch.StartNew();
