@@ -6,10 +6,25 @@ public static class _
 {
     public static void Run()
     {
-        Character character = new();
-        character.guid = new GUID(10);
-        character.Name = "Max";
-        character.Mass = 65f / 9.81f;
+        var characterConfig = Manager.World.RegisterEntity(new Character.Config
+        {
+            Name = "Max",
+            Health = 100,
+            MaxHealth = 100,
+            Stamina = 100,
+            MaxStamina = 100,
+            Magica = 100,
+            MaxMagica = 100,
+            Mass = 80f / 9.81f,
+        });
+
+        var character = Manager.World.RegisterEntity(new Character
+        {
+            config = characterConfig.Ref(),
+            Health = 50,
+            Stamina = 25,
+            Magica = 75,
+        });
 
         var raw = character.SerializeToString();
         var versioned = character.SerializeToStringVersioned(1);
@@ -48,8 +63,8 @@ public static class _
         var gun = Manager.World.RegisterEntity(new Gun
         {
             config = gunConfig.Ref(),
-            LoadedAmmo = 10,
-            ChamberedAmmo = 10,
+            AmmoInMagazine = 10,
+            ChamberedAmmo = 1,
             Ammo = gunAmmo.Ref(),
         });
 

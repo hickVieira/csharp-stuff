@@ -2,7 +2,7 @@ namespace Game.I;
 
 public interface Referenciable
 {
-    public GUID guid { get; set; }
+    public GUID guid { get; }
 }
 
 public interface Serializable
@@ -17,20 +17,33 @@ public interface SerializableVersioned
 
 public interface Named
 {
-    string Name { get; set; }
+    string Name { get; }
 }
 
 public interface Physical
 {
-    float Mass { get; set; }
+    float Mass { get; }
+}
+
+public interface Mage
+{
+    public uint Magica { get; set; }
+    public uint MaxMagica { get; }
 }
 
 public interface Lifeform
 {
-    uint Health { get; set; }
-    uint MaxHealth { get; set; }
-    uint Stamina { get; set; }
-    uint MaxStamina { get; set; }
+    uint Health { get; }
+    uint MaxHealth { get; }
+    uint Stamina { get; }
+    uint MaxStamina { get; }
+    void Sleep();
+    void Die();
+}
+
+public interface Damageable
+{
+    void TakeDamage();
 }
 
 public interface Pickable
@@ -40,8 +53,8 @@ public interface Pickable
 
 public interface Stackable
 {
-    int Quantity { get; set; }
-    int MaxQuantity { get; set; }
+    int Quantity { get; }
+    int MaxQuantity { get; }
 }
 
 public interface Fireable
@@ -61,7 +74,7 @@ public interface Interactable
 
 public interface Storage
 {
-    Array<Base.Object> Objects { get; set; }
+    Array<Base.Object> Objects { get; }
 }
 
 public interface Equippable
