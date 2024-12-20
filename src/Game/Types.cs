@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,10 +18,19 @@ public struct GUID : I.Serializable
     public static GUID None { get => new GUID(0); }
 }
 
-public class Ref<T> : I.Serializable where T : I.Referenciable
+[JsonConverter(typeof(Ref<>.RefConverter))]
+public struct Ref<T> : I.Serializable where T : I.Referenciable
 {
-    class Converter : JsonConverter<Ref<T>>
+    class RefConverter : JsonConverter<Ref<T>>
     {
+        public override bool CanConvert(System.Type objectType)
+        {
+            // Ensure the type is a closed generic type
+            return objectType.IsGenericType
+                   && objectType.GetGenericTypeDefinition() == typeof(Ref<>)
+                   && !objectType.ContainsGenericParameters;
+        }
+
         public override void WriteJson(JsonWriter writer, Ref<T> value, JsonSerializer serializer)
         {
             var jsonObject = new JObject
@@ -32,7 +40,7 @@ public class Ref<T> : I.Serializable where T : I.Referenciable
             jsonObject.WriteTo(writer);
         }
 
-        public override Ref<T> ReadJson(JsonReader reader, Type objectType, Ref<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override Ref<T> ReadJson(JsonReader reader, System.Type objectType, Ref<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             var jsonObject = JObject.Load(reader);
             GUID guid = jsonObject["guid"].ToObject<GUID>();
@@ -44,10 +52,10 @@ public class Ref<T> : I.Serializable where T : I.Referenciable
         }
     }
 
-    public string SerializeToString() => Formatter.Serialize.ToString(this, new Converter());
+    public string SerializeToString() => Formatter.Serialize.ToString(this, new RefConverter());
 
-    public uint id { get; set; } = 0;
-    public T entity { get; set; } = default;
+    [JsonIgnore] public uint id { get; set; } = 0;
+    [JsonIgnore] public T entity { get; set; } = default;
 
     public Ref() => (this.id, this.entity) = (0, default);
     public Ref(uint id) => (this.id, this.entity) = (id, default);

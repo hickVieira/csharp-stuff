@@ -30,8 +30,8 @@ public static class Formatter
 
     public static class Serialize
     {
-        public static string ToString<T>(T obj) => JsonConvert.SerializeObject(obj);
-        public static string ToString<T>(T obj, params JsonConverter[] converters) => JsonConvert.SerializeObject(obj, converters);
+        public static string ToString<T>(T obj) => JsonConvert.SerializeObject(obj, Formatting.Indented);
+        public static string ToString<T>(T obj, params JsonConverter[] converters) => JsonConvert.SerializeObject(obj, Formatting.Indented, converters);
         public static byte[] ToBytes<T>(T obj) => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj));
         public static byte[] ToBytes<T>(T obj, params JsonConverter[] converters) => Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj, converters));
 
