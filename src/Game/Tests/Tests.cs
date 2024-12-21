@@ -21,7 +21,7 @@ public static class _
 
         var character = Manager.World.RegisterEntity(new Character
         {
-            config = characterConfig.Ref(),
+            config = characterConfig.RefT(),
             Health = 50,
             Stamina = 25,
             Magica = 75,
@@ -65,29 +65,23 @@ public static class _
 
         var ammo = Manager.World.RegisterEntity(new Ammo
         {
-            config = ammoConfig.Ref()
+            config = ammoConfig.RefT()
         });
 
         var gun = Manager.World.RegisterEntity(new Gun
         {
-            config = gunConfig.Ref(),
+            config = gunConfig.RefT(),
             AmmoInMagazine = 10,
             ChamberedAmmo = 1,
-            Ammo = ammo.Ref(),
+            Ammo = ammo.RefT(),
         });
-
-        var serialObj = JsonConvert.SerializeObject(new Ref<Base.Object>());
-
-        System.Console.WriteLine("\nserialObj()\n" + serialObj);
-
-        return;
 
         var serialGun = gun.SerializeToString();
         var deserialGun = Formatter.Deserialize.FromString<Gun>(serialGun);
 
         System.Console.WriteLine("\ngun.SerializeToString()\n" + serialGun);
-        // System.Console.WriteLine("\ngun.Ammo.SerializeToString()\n" + gun.Ammo.SerializeToString());
-        // System.Console.WriteLine("\n" + deserialGun.data.Ammo.SerializeToString());
-        // System.Console.WriteLine("\n" + deserialGun.data.Ammo.entity.SerializeToString());
+        System.Console.WriteLine("\ngun.Ammo.SerializeToString()\n" + gun.Ammo.SerializeToString());
+        System.Console.WriteLine("\ndeserialGun.data.Ammo\n" + deserialGun.data.Ammo.SerializeToString());
+        System.Console.WriteLine("\ndeserialGun.data.Ammo.entity\n" + deserialGun.data.Ammo.entity.SerializeToString());
     }
 }

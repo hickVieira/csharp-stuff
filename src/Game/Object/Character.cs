@@ -13,7 +13,7 @@ public class Character : Base.Object, I.Named, I.Lifeform, I.Damageable, I.Mage,
         public uint MaxMagica { get; set; }
         public float Mass { get; set; }
     }
-    public Ref<Config> config;
+    public RefT<Config> config;
 
     public string Name { get => config.entity.Name; }
     public uint MaxHealth { get => config.entity.MaxHealth; }
@@ -24,8 +24,8 @@ public class Character : Base.Object, I.Named, I.Lifeform, I.Damageable, I.Mage,
     public uint Health { get; set; }
     public uint Stamina { get; set; }
     public uint Magica { get; set; }
-    public Ref<Container> Inventory { get; set; }
-    public Array<Ref<Base.Object>> Equipped { get; set; }
+    public RefT<Container> Inventory { get; set; }
+    public Array<RefT<Base.Object>> Equipped { get; set; }
 
     public void Interact() { }
 

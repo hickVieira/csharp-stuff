@@ -18,53 +18,60 @@ public struct GUID : I.Serializable
     public static GUID None { get => new GUID(0); }
 }
 
-[JsonConverter(typeof(Ref<>.RefConverter))]
-public struct Ref<T> : I.Serializable where T : I.Referenciable
+// [JsonConverter(typeof(RefConverter))]
+// [JsonConverter(typeof(RefConverter))]
+public class Ref : I.Serializable
 {
-    class RefConverter : JsonConverter<Ref<T>>
-    {
-        public override bool CanConvert(System.Type objectType)
-        {
-            // Ensure the type is a closed generic type
-            return objectType.IsGenericType
-                   && objectType.GetGenericTypeDefinition() == typeof(Ref<>)
-                   && !objectType.ContainsGenericParameters;
-        }
+    public virtual string SerializeToString() => Formatter.Serialize.ToString(this);
 
-        public override void WriteJson(JsonWriter writer, Ref<T> value, JsonSerializer serializer)
-        {
-            var jsonObject = new JObject
-            {
-                ["guid"] = JToken.FromObject(value.guid, serializer),
-            };
-            jsonObject.WriteTo(writer);
-        }
-
-        public override Ref<T> ReadJson(JsonReader reader, System.Type objectType, Ref<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            var jsonObject = JObject.Load(reader);
-            GUID guid = jsonObject["guid"].ToObject<GUID>();
-            return new Ref<T>
-            {
-                id = guid.id,
-                entity = (T)Manager.World.Get(guid),
-            };
-        }
-    }
-
-    public string SerializeToString() => Formatter.Serialize.ToString(this, new RefConverter());
-
-    [JsonIgnore] public uint id { get; set; } = 0;
-    [JsonIgnore] public T entity { get; set; } = default;
+    public uint id { get; set; } = 0;
+    public object entity { get; set; } = default;
 
     public Ref() => (this.id, this.entity) = (0, default);
     public Ref(uint id) => (this.id, this.entity) = (id, default);
-    public Ref(uint id, T obj) => (this.id, this.entity) = (id, obj);
+    public Ref(uint id, object obj) => (this.id, this.entity) = (id, obj);
+    public static Ref None { get => new Ref(0, default); }
     public GUID guid { get => new GUID(this.id); }
-    public static Ref<T> None { get => new Ref<T>(0, default); }
+    public RefT<T> RefT<T>() => new RefT<T>(id, (T)entity);
+}
+
+public class RefT<T> : Ref
+{
+    public override string SerializeToString() => Formatter.Serialize.ToString(this);
+
+    public new T entity { get => (T)base.entity; set => base.entity = value; }
+
+    public RefT() => (this.id, this.entity) = (0, default);
+    public RefT(uint id) => (this.id, this.entity) = (id, default);
+    public RefT(uint id, T obj) => (this.id, this.entity) = (id, obj);
+    public Ref Ref() => new Ref(id, entity);
 }
 
 public static partial class _
 {
-    public static Ref<T> Ref<T>(this T obj) where T : I.Referenciable => new Ref<T>(obj.guid.id, obj);
+    public static Ref Ref<T>(this T obj) where T : I.Referenciable => new Ref(obj.guid.id, obj);
+    public static RefT<T> RefT<T>(this T obj) where T : I.Referenciable => new RefT<T>(obj.guid.id, obj);
 }
+
+// class RefConverter : JsonConverter<Ref>
+// {
+//     public override void WriteJson(JsonWriter writer, Ref value, JsonSerializer serializer)
+//     {
+//         var jsonObject = new JObject
+//         {
+//             ["guid"] = JToken.FromObject(value.guid, serializer),
+//         };
+//         jsonObject.WriteTo(writer);
+//     }
+
+//     public override Ref ReadJson(JsonReader reader, System.Type objectType, Ref existingValue, bool hasExistingValue, JsonSerializer serializer)
+//     {
+//         var jsonObject = JObject.Load(reader);
+//         GUID guid = jsonObject["guid"].ToObject<GUID>();
+//         return new Ref
+//         {
+//             id = guid.id,
+//             entity = Manager.World.Get(guid),
+//         };
+//     }
+// }
