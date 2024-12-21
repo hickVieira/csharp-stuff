@@ -9,7 +9,7 @@ public class Ammo : Base.Object, I.Named
         public string Name { get; set; }
         public uint ProjectilesCount { get; set; }
     }
-    public RefT<Config> config { get; set; }
+    public Ref<Config> config { get; set; }
 
     [JsonIgnore] public string Name { get => config.entity.Name; }
 }
@@ -19,7 +19,7 @@ public class GunMod : Base.Object, I.Named
     public class Config : Gun.Config
     {
     }
-    public RefT<Config> config { get; set; }
+    public Ref<Config> config { get; set; }
 
     [JsonIgnore] public string Name { get => config.entity.Name; }
 }
@@ -39,7 +39,7 @@ public class Gun : Base.Object, I.Named
         public uint MagazineSize { get; set; }
         public uint AmmoPerShot { get; set; }
     }
-    public RefT<Config> config { get; set; }
+    public Ref<Config> config { get; set; }
 
     [JsonIgnore] public string Name { get => config.entity.Name; }
     [JsonIgnore] public float Damage { get => config.entity.Damage; }
@@ -54,6 +54,6 @@ public class Gun : Base.Object, I.Named
 
     public uint AmmoInMagazine { get; set; }
     public uint ChamberedAmmo { get; set; }
-    public RefT<Ammo> Ammo { get; set; }
-    public Array<RefT<GunMod>> Mods { get; set; }
+    public Ref<Ammo> Ammo { get; set; }
+    public Array<Ref<GunMod>> Mods { get; set; }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Game;
 
@@ -18,60 +17,22 @@ public struct GUID : I.Serializable
     public static GUID None { get => new GUID(0); }
 }
 
-// [JsonConverter(typeof(RefConverter))]
-// [JsonConverter(typeof(RefConverter))]
-public class Ref : I.Serializable
+public struct Ref<T> : I.Serializable
 {
-    public virtual string SerializeToString() => Formatter.Serialize.ToString(this);
+    public string SerializeToString() => Formatter.Serialize.ToString(this);
 
     public uint id { get; set; } = 0;
-    public object entity { get; set; } = default;
+    [JsonIgnore] public T _entity;
+    [JsonIgnore] public T entity { get { if (_entity == null) _entity = (T)Manager.World.Get(guid); return _entity; } private set => _entity = value; }
+    [JsonIgnore] public GUID guid { get => new GUID(this.id); }
 
     public Ref() => (this.id, this.entity) = (0, default);
     public Ref(uint id) => (this.id, this.entity) = (id, default);
-    public Ref(uint id, object obj) => (this.id, this.entity) = (id, obj);
-    public static Ref None { get => new Ref(0, default); }
-    public GUID guid { get => new GUID(this.id); }
-    public RefT<T> RefT<T>() => new RefT<T>(id, (T)entity);
-}
-
-public class RefT<T> : Ref
-{
-    public override string SerializeToString() => Formatter.Serialize.ToString(this);
-
-    public new T entity { get => (T)base.entity; set => base.entity = value; }
-
-    public RefT() => (this.id, this.entity) = (0, default);
-    public RefT(uint id) => (this.id, this.entity) = (id, default);
-    public RefT(uint id, T obj) => (this.id, this.entity) = (id, obj);
-    public Ref Ref() => new Ref(id, entity);
+    public Ref(uint id, T obj) => (this.id, this.entity) = (id, obj);
+    public static Ref<T> None { get => new Ref<T>(0, default); }
 }
 
 public static partial class _
 {
-    public static Ref Ref<T>(this T obj) where T : I.Referenciable => new Ref(obj.guid.id, obj);
-    public static RefT<T> RefT<T>(this T obj) where T : I.Referenciable => new RefT<T>(obj.guid.id, obj);
+    public static Ref<T> Ref<T>(this T obj) where T : I.Referenciable => new Ref<T>(obj.guid.id, obj);
 }
-
-// class RefConverter : JsonConverter<Ref>
-// {
-//     public override void WriteJson(JsonWriter writer, Ref value, JsonSerializer serializer)
-//     {
-//         var jsonObject = new JObject
-//         {
-//             ["guid"] = JToken.FromObject(value.guid, serializer),
-//         };
-//         jsonObject.WriteTo(writer);
-//     }
-
-//     public override Ref ReadJson(JsonReader reader, System.Type objectType, Ref existingValue, bool hasExistingValue, JsonSerializer serializer)
-//     {
-//         var jsonObject = JObject.Load(reader);
-//         GUID guid = jsonObject["guid"].ToObject<GUID>();
-//         return new Ref
-//         {
-//             id = guid.id,
-//             entity = Manager.World.Get(guid),
-//         };
-//     }
-// }
