@@ -6,7 +6,7 @@ public static class _
 {
     public static void Run()
     {
-        var gunConfig = Manager.World.RegisterEntity(new Gun.Config
+        var gunConfig = State.World.RegisterEntity(new Gun.Config
         {
             Name = "Glock",
             Damage = 10,
@@ -19,18 +19,18 @@ public static class _
             AmmoPerShot = 10,
         });
 
-        var ammoConfig = Manager.World.RegisterEntity(new Ammo.Config
+        var ammoConfig = State.World.RegisterEntity(new Ammo.Config
         {
             Name = "9mm",
             ProjectilesCount = 1,
         });
 
-        var ammo = Manager.World.RegisterEntity(new Ammo
+        var ammo = State.World.RegisterEntity(new Ammo
         {
             config = ammoConfig.Ref()
         });
 
-        var gun = Manager.World.RegisterEntity(new Gun
+        var gun = State.World.RegisterEntity(new Gun
         {
             config = gunConfig.Ref(),
             AmmoInMagazine = 10,

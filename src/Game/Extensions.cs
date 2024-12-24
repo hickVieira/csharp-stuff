@@ -1,2 +1,3 @@
-namespace Game;
-
+namespace Game
+{
+}

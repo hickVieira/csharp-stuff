@@ -23,7 +23,7 @@ public struct Ref<T> : I.Serializable
 
     public uint id { get; set; } = 0;
     [JsonIgnore] public T _entity;
-    [JsonIgnore] public T entity { get { if (_entity == null) _entity = (T)Manager.World.Get(guid); return _entity; } private set => _entity = value; }
+    [JsonIgnore] public T entity { get { if (_entity == null) _entity = (T)Game.State.Data.Get(guid); return _entity; } private set => _entity = value; }
     [JsonIgnore] public GUID guid { get => new GUID(this.id); }
 
     public Ref() => (this.id, this.entity) = (0, default);
