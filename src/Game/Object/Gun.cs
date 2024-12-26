@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 
 namespace Game.Object;
 
-public class Ammo : Base.Object, I.Named
+public class Ammo : Core.Object, I.Named
 {
-    public class Config : Base.Config
+    public class Config : Core.Config
     {
         public string Name { get; set; }
         public uint ProjectilesCount { get; set; }
@@ -14,7 +14,7 @@ public class Ammo : Base.Object, I.Named
     [JsonIgnore] public string Name { get => config.entity.Name; }
 }
 
-public class GunMod : Base.Object, I.Named
+public class GunMod : Core.Object, I.Named
 {
     public class Config : Gun.Config
     {
@@ -24,9 +24,9 @@ public class GunMod : Base.Object, I.Named
     [JsonIgnore] public string Name { get => config.entity.Name; }
 }
 
-public class Gun : Base.Object, I.Named
+public class Gun : Core.Object, I.Named
 {
-    public class Config : Base.Config
+    public class Config : Core.Config
     {
         public string Name { get; set; }
         public float Damage { get; set; }

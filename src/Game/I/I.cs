@@ -74,7 +74,7 @@ public interface Interactable
 
 public interface Storage
 {
-    Array<Base.Object> Objects { get; }
+    Array<Core.Object> Objects { get; }
 }
 
 public interface Equippable

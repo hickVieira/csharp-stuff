@@ -8,7 +8,7 @@ public class Map<TKey, TValue> : Dictionary<TKey, TValue>;
 
 public struct GUID : I.Serializable
 {
-    public string SerializeToString() => Formatter.Serialize.ToString(this);
+    public string SerializeToString() => Serde.Serialize.ToString(this);
 
     public uint id { get; set; } = 0;
 
@@ -17,13 +17,13 @@ public struct GUID : I.Serializable
     public static GUID None { get => new GUID(0); }
 }
 
-public struct Ref<T> : I.Serializable
+public struct Ref<T> : I.Serializable where T : Core.Entity
 {
-    public string SerializeToString() => Formatter.Serialize.ToString(this);
+    public string SerializeToString() => Serde.Serialize.ToString(this);
 
     public uint id { get; set; } = 0;
     [JsonIgnore] public T _entity;
-    [JsonIgnore] public T entity { get { if (_entity == null) _entity = (T)Game.State.Data.Get(guid); return _entity; } private set => _entity = value; }
+    [JsonIgnore] public T entity { get { if (_entity == null) _entity = Game.State.Get<T>(guid); return _entity; } private set => _entity = value; }
     [JsonIgnore] public GUID guid { get => new GUID(this.id); }
 
     public Ref() => (this.id, this.entity) = (0, default);
@@ -34,5 +34,5 @@ public struct Ref<T> : I.Serializable
 
 public static partial class _
 {
-    public static Ref<T> Ref<T>(this T obj) where T : I.Referenciable => new Ref<T>(obj.guid.id, obj);
+    public static Ref<T> Ref<T>(this T obj) where T : Core.Entity => new Ref<T>(obj.guid.id, obj);
 }

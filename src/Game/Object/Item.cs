@@ -1,5 +1,5 @@
 namespace Game.Object;
 
-public class Item : Base.Object
+public class Item : Core.Object
 {
 }

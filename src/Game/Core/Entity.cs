@@ -1,4 +1,4 @@
-namespace Game.Base
+namespace Game.Core
 {
     public class Entity : I.Referenciable, I.Serializable, I.SerializableVersioned
     {
@@ -6,7 +6,7 @@ namespace Game.Base
 
         public Entity() => this.guid = GUID.None;
         public Entity(GUID guid) => this.guid = guid;
-        public string SerializeToString() => Formatter.Serialize.ToString(this);
-        public string SerializeToStringVersioned(uint version) => Formatter.Serialize.ToStringVersioned(version, this);
+        public virtual string SerializeToString() => Serde.Serialize.ToString(this);
+        public virtual string SerializeToStringVersioned(uint version) => Serde.Serialize.ToStringVersioned(version, this);
     }
 }

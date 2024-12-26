@@ -1,4 +1,4 @@
-namespace Game.Base
+namespace Game.Core
 {
     public class Cell : Entity
     {

@@ -6,7 +6,14 @@ public static class _
 {
     public static void Run()
     {
-        var gunConfig = State.World.RegisterEntity(new Gun.Config
+        // CreateEntities();
+        Game.State.Load();
+        // Game.State.Save();
+    }
+
+    public static void CreateEntities()
+    {
+        var gunConfig = Game.State.RegisterEntity(new Gun.Config
         {
             Name = "Glock",
             Damage = 10,
@@ -19,18 +26,18 @@ public static class _
             AmmoPerShot = 10,
         });
 
-        var ammoConfig = State.World.RegisterEntity(new Ammo.Config
+        var ammoConfig = Game.State.RegisterEntity(new Ammo.Config
         {
             Name = "9mm",
             ProjectilesCount = 1,
         });
 
-        var ammo = State.World.RegisterEntity(new Ammo
+        var ammo = Game.State.RegisterEntity(new Ammo
         {
             config = ammoConfig.Ref()
         });
 
-        var gun = State.World.RegisterEntity(new Gun
+        var gun = Game.State.RegisterEntity(new Gun
         {
             config = gunConfig.Ref(),
             AmmoInMagazine = 10,
@@ -39,10 +46,11 @@ public static class _
         });
 
         var serialGun = gun.SerializeToString();
-        var deserialGun = Formatter.Deserialize.FromString<Gun>(serialGun);
+        var deserialGun = Serde.Deserialize.FromString<Gun>(serialGun);
 
         System.Console.WriteLine("\nserialGun\n" + serialGun);
         System.Console.WriteLine("\ngun.Ammo.SerializeToString()\n" + gun.Ammo.SerializeToString());
+        System.Console.WriteLine("\ndeserialGun\n" + deserialGun);
         System.Console.WriteLine("\ndeserialGun.data.SerializeToString\n" + deserialGun.data.SerializeToString());
         System.Console.WriteLine("\ndeserialGun.data.Ammo\n" + deserialGun.data.Ammo.SerializeToString());
         System.Console.WriteLine("\ndeserialGun.data.Ammo.entity\n" + deserialGun.data.Ammo.entity.SerializeToString());

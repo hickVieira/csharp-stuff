@@ -1,8 +1,8 @@
 namespace Game.Object;
 
-public class Character : Base.Object, I.Named, I.Lifeform, I.Damageable, I.Mage, I.Physical, I.Interactable
+public class Character : Core.Object, I.Named, I.Lifeform, I.Damageable, I.Mage, I.Physical, I.Interactable
 {
-    public class Config : Base.Config
+    public class Config : Core.Config
     {
         public string Name { get; set; }
         public uint Health { get; set; }
@@ -25,7 +25,7 @@ public class Character : Base.Object, I.Named, I.Lifeform, I.Damageable, I.Mage,
     public uint Stamina { get; set; }
     public uint Magica { get; set; }
     public Ref<Container> Inventory { get; set; }
-    public Array<Ref<Base.Object>> Equipped { get; set; }
+    public Array<Ref<Core.Object>> Equipped { get; set; }
 
     public void Interact() { }
 

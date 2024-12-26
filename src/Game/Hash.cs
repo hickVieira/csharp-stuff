@@ -18,6 +18,7 @@ public static class Hash
     const string _hexadecimalsUpper = "0123456789ABCDEF";
     const string _hexadecimalsLower = "0123456789abcdef";
     const string _octals = "01234567";
+    static int _seed = int.MinValue;
 
     public static class Generate
     {
@@ -56,11 +57,11 @@ public static class Hash
             return new string(output);
         }
 
-        public static System.Int16 Int16(int i) => System.Convert.ToInt16(Generate.String(Hash.Type.HexadecimalUpper, 4, new System.Random(i)), 16);
-        public static System.Int32 Int32(int i) => System.Convert.ToInt32(Generate.String(Hash.Type.HexadecimalUpper, 8, new System.Random(i)), 16);
-        public static System.Int64 Int64(int i) => System.Convert.ToInt64(Generate.String(Hash.Type.HexadecimalUpper, 16, new System.Random(i)), 16);
-        public static System.UInt16 UInt16(int i) => System.Convert.ToUInt16(Generate.String(Hash.Type.HexadecimalUpper, 4, new System.Random(i)), 16);
-        public static System.UInt32 UInt32(int i) => System.Convert.ToUInt32(Generate.String(Hash.Type.HexadecimalUpper, 8, new System.Random(i)), 16);
-        public static System.UInt64 UInt64(int i) => System.Convert.ToUInt64(Generate.String(Hash.Type.HexadecimalUpper, 16, new System.Random(i)), 16);
+        public static System.Int16 Int16() => System.Convert.ToInt16(Generate.String(Hash.Type.HexadecimalUpper, 4, new System.Random(_seed++)), 16);
+        public static System.Int32 Int32() => System.Convert.ToInt32(Generate.String(Hash.Type.HexadecimalUpper, 8, new System.Random(_seed++)), 16);
+        public static System.Int64 Int64() => System.Convert.ToInt64(Generate.String(Hash.Type.HexadecimalUpper, 16, new System.Random(_seed++)), 16);
+        public static System.UInt16 UInt16() => System.Convert.ToUInt16(Generate.String(Hash.Type.HexadecimalUpper, 4, new System.Random(_seed++)), 16);
+        public static System.UInt32 UInt32() => System.Convert.ToUInt32(Generate.String(Hash.Type.HexadecimalUpper, 8, new System.Random(_seed++)), 16);
+        public static System.UInt64 UInt64() => System.Convert.ToUInt64(Generate.String(Hash.Type.HexadecimalUpper, 16, new System.Random(_seed++)), 16);
     }
 }

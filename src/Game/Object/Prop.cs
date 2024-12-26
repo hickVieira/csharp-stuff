@@ -1,5 +1,5 @@
 namespace Game.Object;
 
-public class Prop : Base.Object
+public class Prop : Core.Object
 {
 }
