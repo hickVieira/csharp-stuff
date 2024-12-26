@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Game.Object;
 
 public class Character : Core.Object, I.Named, I.Lifeform, I.Damageable, I.Mage, I.Physical, I.Interactable
@@ -25,7 +27,7 @@ public class Character : Core.Object, I.Named, I.Lifeform, I.Damageable, I.Mage,
     public uint Stamina { get; set; }
     public uint Magica { get; set; }
     public Ref<Container> Inventory { get; set; }
-    public Array<Ref<Core.Object>> Equipped { get; set; }
+    public List<Ref<Core.Object>> Equipped { get; set; }
 
     public void Interact() { }
 

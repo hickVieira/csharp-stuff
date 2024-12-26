@@ -45,14 +45,9 @@ public static class _
             Ammo = ammo.Ref(),
         });
 
-        var serialGun = gun.SerializeToString();
-        var deserialGun = Serde.Deserialize.FromString<Gun>(serialGun);
-
+        var serialGun = gun.SerializeToJson();
         System.Console.WriteLine("\nserialGun\n" + serialGun);
-        System.Console.WriteLine("\ngun.Ammo.SerializeToString()\n" + gun.Ammo.SerializeToString());
-        System.Console.WriteLine("\ndeserialGun\n" + deserialGun);
-        System.Console.WriteLine("\ndeserialGun.data.SerializeToString\n" + deserialGun.data.SerializeToString());
-        System.Console.WriteLine("\ndeserialGun.data.Ammo\n" + deserialGun.data.Ammo.SerializeToString());
-        System.Console.WriteLine("\ndeserialGun.data.Ammo.entity\n" + deserialGun.data.Ammo.entity.SerializeToString());
+        var deserialGun = Serde.Deserialize.FromJson<Gun>(serialGun);
+        System.Console.WriteLine("\ndeserialGun\n" + deserialGun.data.SerializeToJson());
     }
 }

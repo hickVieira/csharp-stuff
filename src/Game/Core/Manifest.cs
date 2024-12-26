@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Game.Core
 {
     public class Manifest
@@ -6,7 +8,7 @@ namespace Game.Core
         {
             public string Path { get; set; }
         }
-        public Map<uint, Entry> entries { get; set; }
+        public Dictionary<uint, Entry> entries { get; set; }
 
         public void Insert(string path)
         {

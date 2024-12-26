@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Game.I;
 
 public interface Referenciable
@@ -7,12 +9,7 @@ public interface Referenciable
 
 public interface Serializable
 {
-    string SerializeToString();
-}
-
-public interface SerializableVersioned
-{
-    string SerializeToStringVersioned(uint version);
+    string SerializeToJson();
 }
 
 public interface Named
@@ -74,7 +71,7 @@ public interface Interactable
 
 public interface Storage
 {
-    Array<Core.Object> Objects { get; }
+    List<Core.Object> Objects { get; }
 }
 
 public interface Equippable

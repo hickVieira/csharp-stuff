@@ -1,18 +1,7 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Game.Object;
-
-public class Ammo : Core.Object, I.Named
-{
-    public class Config : Core.Config
-    {
-        public string Name { get; set; }
-        public uint ProjectilesCount { get; set; }
-    }
-    public Ref<Config> config { get; set; }
-
-    [JsonIgnore] public string Name { get => config.entity.Name; }
-}
 
 public class GunMod : Core.Object, I.Named
 {
@@ -55,5 +44,5 @@ public class Gun : Core.Object, I.Named
     public uint AmmoInMagazine { get; set; }
     public uint ChamberedAmmo { get; set; }
     public Ref<Ammo> Ammo { get; set; }
-    public Array<Ref<GunMod>> Mods { get; set; }
+    public List<Ref<GunMod>> Mods { get; set; }
 }

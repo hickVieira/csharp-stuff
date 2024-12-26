@@ -1,19 +1,18 @@
-using System;
-using Game.Core;
-using Game.Object;
+using System.Collections.Generic;
 
 namespace Game
 {
     public static class State
     {
-        public static Map<uint, Core.Entity> Entities { get; private set; } = new();
+        public static Dictionary<uint, Core.Entity> Entities { get; private set; } = new();
 
         public static void Load()
         {
             Entities.Clear();
             foreach (var file in System.IO.Directory.EnumerateFiles("./Content"))
             {
-                var json = Serde.ParseJson(System.IO.File.ReadAllText(file));
+                var jsonString = System.IO.File.ReadAllText(file);
+                var jsonObj = Serde.Parse.Json(jsonString);
                 // var type = json.type();
                 // var version = json.version();
 
@@ -24,9 +23,19 @@ namespace Game
                 //     _ => Serde.Deserialize.FromJson<Entity>(json).data,
                 // };
 
-                Console.WriteLine("json = " + json);
-                var ent = Serde.Deserialize.FromJson(json);
-                Console.WriteLine(ent.SerializeToString());
+                // System.Console.WriteLine("json = " + jsonObj);
+                // var ent1 = Serde.Deserialize.FromJsonReflection(jsonObj);
+                // var ent2 = Serde.Deserialize.FromJsonSwitch(jsonString);
+                // var ent3 = Serde.Deserialize.FromJsonDict(jsonString);
+                // System.Console.WriteLine("ent1 = " + ent1.SerializeToJson());
+                // System.Console.WriteLine("ent2 = " + ent2.SerializeToJson());
+                // System.Console.WriteLine("ent3 = " + ent3.SerializeToJson());
+
+                System.Console.WriteLine("Reflection = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonReflection(jsonObj); }));
+                System.Console.WriteLine("Switch = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonSwitch(jsonString); }));
+                System.Console.WriteLine("Dict = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonDict(jsonString); }));
+
+                return;
 
                 // Entities.Add(ent.guid.id, ent);
             }
@@ -35,7 +44,7 @@ namespace Game
         public static void Save()
         {
             foreach (var ent in Entities.Values)
-                System.IO.File.WriteAllText($"./Content/{ent.guid.id}.json", ent.SerializeToString());
+                System.IO.File.WriteAllText($"./Content/{ent.guid.id}.json", ent.SerializeToJson());
         }
 
         public static T RegisterEntity<T>(T ent) where T : Core.Entity
