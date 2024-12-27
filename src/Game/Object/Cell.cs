@@ -1,6 +1,6 @@
 namespace Game.Object
 {
-    public class Item : Core.Object
+    public class Cell : Core.Entity
     {
     }
 }

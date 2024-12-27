@@ -1,6 +1,7 @@
-namespace Game.Object;
-
-public class Equipment : Core.Object, I.Equippable
+namespace Game.Object
 {
-    public void Equip() { }
+    public class Equipment : Core.Object, I.Equippable
+    {
+        public void Equip() { }
+    }
 }

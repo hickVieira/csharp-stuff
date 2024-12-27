@@ -9,6 +9,7 @@ namespace Game
         {
             {typeof(Object.Ammo).FullName!, data => new Serde.Data<Core.Entity>(data.ToObject<Object.Ammo>())},
             {typeof(Object.Ammo.Config).FullName!, data => new Serde.Data<Core.Entity>(data.ToObject<Object.Ammo.Config>())},
+            {typeof(Object.Cell).FullName!, data => new Serde.Data<Core.Entity>(data.ToObject<Object.Cell>())},
             {typeof(Object.Character).FullName!, data => new Serde.Data<Core.Entity>(data.ToObject<Object.Character>())},
             {typeof(Object.Character.Config).FullName!, data => new Serde.Data<Core.Entity>(data.ToObject<Object.Character.Config>())},
             {typeof(Object.Container).FullName!, data => new Serde.Data<Core.Entity>(data.ToObject<Object.Container>())},

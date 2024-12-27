@@ -1,10 +1,12 @@
+using Newtonsoft.Json;
+
 namespace Game.Core
 {
-    public class Entity : I.Referenciable, I.Serializable
+    public abstract class Entity : I.Referenciable, I.Serializable
     {
-        public GUID guid { get; set; }
+        [JsonIgnore] public GUID guid { get; set; }
 
-        public Entity() => this.guid = GUID.None;
+        public Entity() => this.guid = 0;
         public Entity(GUID guid) => this.guid = guid;
         public virtual string SerializeToJson() => Serde.Serialize.ToJson(this);
     }

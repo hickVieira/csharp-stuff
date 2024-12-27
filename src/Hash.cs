@@ -1,5 +1,3 @@
-namespace Game;
-
 public static class Hash
 {
     public enum Type
