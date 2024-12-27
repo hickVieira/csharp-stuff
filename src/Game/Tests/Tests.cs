@@ -84,6 +84,9 @@ namespace Game.Tests
 
             System.Console.WriteLine("\ncharacter.SerializeToJson()\n" + character.SerializeToJson());
             System.Console.WriteLine("\nSerde.Deserialize.FromJson<Character>(character.SerializeToJson())\n" + Serde.Deserialize.FromJson<Character>(character.SerializeToJson()).data.SerializeToJson());
+
+            System.Console.WriteLine("\ncharacterContainer.SerializeToJson()\n" + characterContainer.SerializeToJson());
+            System.Console.WriteLine("\nSerde.Deserialize.FromJson<Container>(characterContainer.SerializeToJson())\n" + Serde.Deserialize.FromJson<Container>(characterContainer.SerializeToJson()).data.SerializeToJson());
         }
     }
 }
