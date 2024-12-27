@@ -39,9 +39,9 @@ namespace Game.Tests
     {
         public static void Run()
         {
-            CreateEntities();
+            // CreateEntities();
             // State.Load();
-            State.Save();
+            // State.Save();
 
             var character = State.Get<Character>(484509646);
             System.Console.WriteLine("\ncharacter.SerializeToJson()\n" + character.SerializeToJson());
@@ -119,7 +119,7 @@ namespace Game.Tests
                 Inventory = characterContainer.Ref(),
                 Equipped = new(),
             });
-            
+
             System.Console.WriteLine("\ngun.SerializeToJson()\n" + gun.SerializeToJson());
             System.Console.WriteLine("\nSerde.Deserialize.FromJson<Gun>(gun.SerializeToJson())\n" + Serde.Deserialize.FromJson<Gun>(gun.SerializeToJson()).data.SerializeToJson());
 

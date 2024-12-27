@@ -1,4 +1,5 @@
 using Game.Core;
+using System;
 using System.Collections.Generic;
 
 namespace Game
@@ -39,12 +40,6 @@ namespace Game
             return default;
         }
 
-        public static T LoadEntity<T>(T ent) where T : Entity
-        {
-            Entities.Add(ent.guid, ent);
-            return ent;
-        }
-
         // async Task<T> DeleteEntity<T>(guid guid) where T : Base.Entity => await Task.FromResult<T>(default);
         public static void DeleteEntity<T>(uint guid) where T : Entity
         {
@@ -59,7 +54,12 @@ namespace Game
                 return (T)ent;
 
             if (System.IO.File.Exists($"{Path.Content}/{guid}.json"))
-                return LoadEntity(Serde.Deserialize.FromJson<T>(System.IO.File.ReadAllText($"{Path.Content}/{guid}.json")).data);
+            {
+                ent = Serde.Deserialize.FromJson<T>(System.IO.File.ReadAllText($"{Path.Content}/{guid}.json")).data;
+                ent.guid = guid;
+                Entities.Add(ent.guid, ent);
+                return (T)ent;
+            }
 
             return default;
         }
