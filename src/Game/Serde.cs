@@ -28,7 +28,7 @@ namespace Game
         public static class Serialize
         {
             public static string ToJson<T>(T obj) => JsonConvert.SerializeObject(new Data<T>(obj), Formatting.Indented);
-            public static void ToFile<T>(T obj) where T : I.Referenciable => System.IO.File.WriteAllText($"{obj.guid.id}.json", JsonConvert.SerializeObject(new Data<T>(obj), Formatting.Indented));
+            public static void ToFile<T>(T obj) where T : I.Referenciable => System.IO.File.WriteAllText($"{obj.guid}.json", JsonConvert.SerializeObject(new Data<T>(obj), Formatting.Indented));
         }
 
         public static class Deserialize

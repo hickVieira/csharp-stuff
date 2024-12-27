@@ -1,38 +1,3 @@
-/*
-- Modules folder
-- Modules manifest files
-- Manifest files
-- Manifest master/plugin files
-- Cells
-- Unity interop
-
-loadorder.txt (plugin load order) (maybe could make ops like add/mult)
-/base
-    player.json
-    map.json
-    ...
-/dlc1
-    santa.json
-    ...
-/mod1
-    pistol.json
-    ...
-
-init
-    load_modules
-        sort_modules_by_loadorder
-        create_manifest
-    load_gamesettings
-        load_graphics
-        load_bindings
-    load_mainmenu
-        load_gamestate
-        set_gamesettings
-    loop
-        create_objects_from_gamestate
-        save_objects_to_gamestate
-*/
-
 using Game.Core;
 using System.Collections.Generic;
 
@@ -50,25 +15,25 @@ namespace Game
                 var jsonString = System.IO.File.ReadAllText(file);
                 var ent = Serde.Deserialize.FromJson(jsonString).data;
                 ent.guid = uint.Parse(System.IO.Path.GetFileNameWithoutExtension(file));
-                Entities.Add(ent.guid.id, ent);
+                Entities.Add(ent.guid, ent);
             }
         }
 
         public static void Save()
         {
             foreach (var ent in Entities.Values)
-                System.IO.File.WriteAllText($"{Path.Content}/{ent.guid.id}.json", ent.SerializeToJson());
+                System.IO.File.WriteAllText($"{Path.Content}/{ent.guid}.json", ent.SerializeToJson());
         }
 
         public static T RegisterEntity<T>(T ent) where T : Entity
         {
-            if (ent.guid.id == 0 || Entities.ContainsKey(ent.guid.id))
+            if (ent.guid == 0 || Entities.ContainsKey(ent.guid))
             {
                 uint newID;
                 do newID = Hash.Generate.UInt32();
-                while (Entities.ContainsKey(newID));
+                while (newID == 0 || Entities.ContainsKey(newID));
                 ent.guid = newID;
-                Entities.Add(ent.guid.id, ent);
+                Entities.Add(ent.guid, ent);
                 return ent;
             }
             return default;
@@ -76,31 +41,31 @@ namespace Game
 
         public static T LoadEntity<T>(T ent) where T : Entity
         {
-            Entities.Add(ent.guid.id, ent);
+            Entities.Add(ent.guid, ent);
             return ent;
         }
 
         // async Task<T> DeleteEntity<T>(guid guid) where T : Base.Entity => await Task.FromResult<T>(default);
-        public static void DeleteEntity<T>(GUID guid) where T : Entity
+        public static void DeleteEntity<T>(uint guid) where T : Entity
         {
-            if (Entities.ContainsKey(guid.id))
-                Entities.Remove(guid.id);
+            if (Entities.ContainsKey(guid))
+                Entities.Remove(guid);
         }
 
         // async Task<T> LoadEntity<T>(guid guid) where T : Base.Entity => await Task.FromResult<T>(default);
-        public static T Get<T>(GUID guid) where T : Entity
+        public static T Get<T>(uint guid) where T : Entity
         {
-            if (Entities.TryGetValue(guid.id, out var ent))
+            if (Entities.TryGetValue(guid, out var ent))
                 return (T)ent;
 
-            if (System.IO.File.Exists($"{Path.Content}/{guid.id}.json"))
-                return LoadEntity(Serde.Deserialize.FromJson<T>(System.IO.File.ReadAllText($"{Path.Content}/{guid.id}.json")).data);
+            if (System.IO.File.Exists($"{Path.Content}/{guid}.json"))
+                return LoadEntity(Serde.Deserialize.FromJson<T>(System.IO.File.ReadAllText($"{Path.Content}/{guid}.json")).data);
 
             return default;
         }
 
         // async Task<T> UnloadEntity<T>(guid guid) where T : Base.Entity => await Task.FromResult<T>(default);
-        public static void UnloadEntity<T>(GUID guid) where T : Entity
+        public static void UnloadEntity<T>(uint guid) where T : Entity
         {
         }
     }

@@ -1,3 +1,36 @@
+/*
+- NUnit tests
+- Modules folder (base, dlc1, dlc2, mod1, mod2, ...)
+- Modules manifest files
+- Cells
+
+loadorder.txt (plugin load order) (maybe could make ops like add/mult)
+/base
+    player.json
+    map.json
+    ...
+/dlc1
+    santa.json
+    ...
+/mod1
+    pistol.json
+    ...
+
+init
+    load_modules
+        sort_modules_by_loadorder
+        create_manifest
+    load_gamesettings
+        load_graphics
+        load_bindings
+    load_mainmenu
+        load_gamestate
+        set_gamesettings
+    loop
+        create_objects_from_gamestate
+        save_objects_to_gamestate
+*/
+
 using Game.Object;
 
 namespace Game.Tests
@@ -49,9 +82,6 @@ namespace Game.Tests
                 Mods = new(),
             });
 
-            System.Console.WriteLine("\ngun.SerializeToJson()\n" + gun.SerializeToJson());
-            System.Console.WriteLine("\nSerde.Deserialize.FromJson<Gun>(gun.SerializeToJson())\n" + Serde.Deserialize.FromJson<Gun>(gun.SerializeToJson()).data.SerializeToJson());
-
             var characterConfig = State.RegisterEntity(new Character.Config
             {
                 Name = "Max",
@@ -68,7 +98,15 @@ namespace Game.Tests
 
             var body = State.RegisterEntity(new Body
             {
-                BodyParts = new(),
+                BodyPartData = new()
+                {
+                    {"Head", new BodyPartData { Health=100, MaxHealth=100 }},
+                    {"Torso", new BodyPartData { Health=100, MaxHealth=100 }},
+                    {"Left Arm", new BodyPartData { Health=100, MaxHealth=100 }},
+                    {"Right Arm", new BodyPartData { Health=100, MaxHealth=100 }},
+                    {"Left Leg", new BodyPartData { Health=100, MaxHealth=100 }},
+                    {"Right Leg", new BodyPartData { Health=100, MaxHealth=100 }},
+                },
             });
 
             var character = State.RegisterEntity(new Character
@@ -81,12 +119,18 @@ namespace Game.Tests
                 Inventory = characterContainer.Ref(),
                 Equipped = new(),
             });
+            
+            System.Console.WriteLine("\ngun.SerializeToJson()\n" + gun.SerializeToJson());
+            System.Console.WriteLine("\nSerde.Deserialize.FromJson<Gun>(gun.SerializeToJson())\n" + Serde.Deserialize.FromJson<Gun>(gun.SerializeToJson()).data.SerializeToJson());
 
             System.Console.WriteLine("\ncharacter.SerializeToJson()\n" + character.SerializeToJson());
             System.Console.WriteLine("\nSerde.Deserialize.FromJson<Character>(character.SerializeToJson())\n" + Serde.Deserialize.FromJson<Character>(character.SerializeToJson()).data.SerializeToJson());
 
             System.Console.WriteLine("\ncharacterContainer.SerializeToJson()\n" + characterContainer.SerializeToJson());
             System.Console.WriteLine("\nSerde.Deserialize.FromJson<Container>(characterContainer.SerializeToJson())\n" + Serde.Deserialize.FromJson<Container>(characterContainer.SerializeToJson()).data.SerializeToJson());
+
+            System.Console.WriteLine("\nbody.SerializeToJson()\n" + body.SerializeToJson());
+            System.Console.WriteLine("\nSerde.Deserialize.FromJson<Body>(body.SerializeToJson())\n" + Serde.Deserialize.FromJson<Body>(body.SerializeToJson()).data.SerializeToJson());
         }
     }
 }

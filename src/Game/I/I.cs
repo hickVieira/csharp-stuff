@@ -5,7 +5,7 @@ namespace Game.I
 {
     public interface Referenciable
     {
-        public Core.GUID guid { get; }
+        public uint guid { get; }
     }
 
     public interface Serializable
