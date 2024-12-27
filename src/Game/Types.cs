@@ -28,36 +28,6 @@ public struct Ref<T> : I.Serializable where T : Core.Entity
     public static Ref<T> None { get => new Ref<T>(0, default); }
 }
 
-public readonly struct Either<TLeft, TRight>
-{
-    private readonly TLeft _left;
-    private readonly TRight _right;
-    private readonly bool _isLeft;
-
-    public bool IsLeft => _isLeft;
-    public bool IsRight => !_isLeft;
-    public TLeft Left => _isLeft ? _left : throw new System.InvalidOperationException("Accessing Left value when it is Right.");
-    public TRight Right => !_isLeft ? _right : throw new System.InvalidOperationException("Accessing Right value when it is Left.");
-
-    public TResult Match<TResult>(System.Func<TLeft, TResult> onLeft, System.Func<TRight, TResult> onRight) => _isLeft ? onLeft(_left) : onRight(_right);
-    public override string ToString() => _isLeft ? $"Left({_left})" : $"Right({_right})";
-
-    public Either(TLeft left)
-    {
-        _left = left;
-        _right = default!;
-        _isLeft = true;
-    }
-
-    public Either(TRight right)
-    {
-        _left = default!;
-        _right = right;
-        _isLeft = false;
-    }
-}
-
-
 public static partial class _
 {
     public static Ref<T> Ref<T>(this T obj) where T : Core.Entity => new Ref<T>(obj.guid.id, obj);

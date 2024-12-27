@@ -9,7 +9,7 @@ namespace Game
         public static void Load()
         {
             Entities.Clear();
-            foreach (var file in System.IO.Directory.EnumerateFiles("./Content"))
+            foreach (var file in System.IO.Directory.EnumerateFiles($"{Path.Content}"))
             {
                 var jsonString = System.IO.File.ReadAllText(file);
                 var jsonObj = Serde.Parse.Json(jsonString);
@@ -31,11 +31,11 @@ namespace Game
                 // System.Console.WriteLine("ent2 = " + ent2.SerializeToJson());
                 // System.Console.WriteLine("ent3 = " + ent3.SerializeToJson());
 
-                System.Console.WriteLine("Reflection = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonReflection(jsonObj); }));
+                System.Console.WriteLine("file = " + file);
                 System.Console.WriteLine("Switch = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonSwitch(jsonString); }));
+                System.Console.WriteLine("Reflection = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonReflection(jsonObj); }));
                 System.Console.WriteLine("Dict = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonDict(jsonString); }));
-
-                return;
+                System.Console.WriteLine("---------------------");
 
                 // Entities.Add(ent.guid.id, ent);
             }
@@ -44,7 +44,7 @@ namespace Game
         public static void Save()
         {
             foreach (var ent in Entities.Values)
-                System.IO.File.WriteAllText($"./Content/{ent.guid.id}.json", ent.SerializeToJson());
+                System.IO.File.WriteAllText($"{Path.Content}/{ent.guid.id}.json", ent.SerializeToJson());
         }
 
         public static T RegisterEntity<T>(T ent) where T : Core.Entity
@@ -80,8 +80,8 @@ namespace Game
             if (Entities.TryGetValue(guid.id, out var ent))
                 return (T)ent;
 
-            if (System.IO.File.Exists($"./Content/{guid.id}.json"))
-                return LoadEntity(Serde.Deserialize.FromJson<T>(System.IO.File.ReadAllText($"./Content/{guid.id}.json")).data);
+            if (System.IO.File.Exists($"{Path.Content}/{guid.id}.json"))
+                return LoadEntity(Serde.Deserialize.FromJson<T>(System.IO.File.ReadAllText($"{Path.Content}/{guid.id}.json")).data);
 
             return default;
         }
