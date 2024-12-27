@@ -20,12 +20,6 @@ namespace Game
             public Data(T data) => (this.version, this.type, this.data) = (_version, data.GetType().FullName, data);
         }
 
-        static readonly System.Collections.Generic.Dictionary<string, Type> TypeMap =
-                Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .Where(t => typeof(Entity).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface)
-                .ToDictionary(t => t.FullName, t => t);
-
         public static uint version(this JObject json) => json["version"].Value<uint>();
         public static string type(this JObject json) => json["type"].Value<string>();
         public static JToken data(this JObject json) => json["data"];
@@ -45,7 +39,6 @@ namespace Game
         {
             public static Data<T> FromJson<T>(string json) => JsonConvert.DeserializeObject<Data<T>>(json, new EntityJsonConverterSwitch());
             public static Data<T> FromJson<T>(JObject json) => JsonConvert.DeserializeObject<Data<T>>(json.ToString(), new EntityJsonConverterSwitch());
-            public static Entity FromJsonReflection(JObject json) => (Entity)json["data"].ToObject(TypeMap[json["type"].Value<string>()]);
             public static Entity FromJsonSwitch(string json) => JsonConvert.DeserializeObject<Entity>(json, new EntityJsonConverterSwitch());
             public static Entity FromJsonDict(string json) => JsonConvert.DeserializeObject<Entity>(json, new EntityJsonConverterDictionary());
         }
@@ -85,7 +78,7 @@ namespace Game
             {
                 var jsonObject = JObject.Load(reader);
                 string type = jsonObject["type"].Value<string>();
-                return Game.TypeMap.Data[type](jsonObject["data"]!);
+                return TypeMap.Data[type](jsonObject["data"]!);
             }
         }
     }

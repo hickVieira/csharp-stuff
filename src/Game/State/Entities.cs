@@ -33,7 +33,6 @@ namespace Game
 
                 System.Console.WriteLine("file = " + file);
                 System.Console.WriteLine("Switch = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonSwitch(jsonString); }));
-                System.Console.WriteLine("Reflection = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonReflection(jsonObj); }));
                 System.Console.WriteLine("Dict = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonDict(jsonString); }));
                 System.Console.WriteLine("---------------------");
 
