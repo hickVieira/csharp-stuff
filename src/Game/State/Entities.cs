@@ -12,31 +12,8 @@ namespace Game
             foreach (var file in System.IO.Directory.EnumerateFiles($"{Path.Content}"))
             {
                 var jsonString = System.IO.File.ReadAllText(file);
-                var jsonObj = Serde.Parse.Json(jsonString);
-                // var type = json.type();
-                // var version = json.version();
-
-                // Entity ent = default;
-                // ent = type switch
-                // {
-                //     "Character" => Serde.Deserialize.FromJson<Character>(json).data,
-                //     _ => Serde.Deserialize.FromJson<Entity>(json).data,
-                // };
-
-                // System.Console.WriteLine("json = " + jsonObj);
-                // var ent1 = Serde.Deserialize.FromJsonReflection(jsonObj);
-                // var ent2 = Serde.Deserialize.FromJsonSwitch(jsonString);
-                // var ent3 = Serde.Deserialize.FromJsonDict(jsonString);
-                // System.Console.WriteLine("ent1 = " + ent1.SerializeToJson());
-                // System.Console.WriteLine("ent2 = " + ent2.SerializeToJson());
-                // System.Console.WriteLine("ent3 = " + ent3.SerializeToJson());
-
-                System.Console.WriteLine("file = " + file);
-                System.Console.WriteLine("Switch = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonSwitch(jsonString); }));
-                System.Console.WriteLine("Dict = " + Benchmark.Measure(99999, () => { var ent = Serde.Deserialize.FromJsonDict(jsonString); }));
-                System.Console.WriteLine("---------------------");
-
-                // Entities.Add(ent.guid.id, ent);
+                var ent = Serde.Deserialize.FromJson(jsonString).data;
+                Entities.Add(ent.guid.id, ent);
             }
         }
 
