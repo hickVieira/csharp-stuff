@@ -1,8 +1,8 @@
-using Game.Core;
+using VSect.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Game
+namespace VSect
 {
     public static class Serde
     {
@@ -45,8 +45,7 @@ namespace Game
             public override Data<Entity> ReadJson(JsonReader reader, System.Type objectType, Data<Entity> existingValue, bool hasExistingValue, JsonSerializer serializer)
             {
                 var jsonObject = JObject.Load(reader);
-                string type = jsonObject["type"].Value<string>();
-                return TypeMap.Data[type](jsonObject["data"]!);
+                return TypeMap.Data[jsonObject["type"].Value<string>()](jsonObject["data"]!);
             }
         }
     }

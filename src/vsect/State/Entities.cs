@@ -1,8 +1,8 @@
-using Game.Core;
+using VSect.Core;
 using System;
 using System.Collections.Generic;
 
-namespace Game
+namespace VSect
 {
     public static class State
     {

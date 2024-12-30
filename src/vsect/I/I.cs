@@ -1,7 +1,7 @@
-using Game.Core;
+using VSect.Core;
 using System.Collections.Generic;
 
-namespace Game.I
+namespace VSect.I
 {
     public interface Referenciable
     {

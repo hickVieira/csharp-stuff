@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Game.Core
+namespace VSect.Core
 {
     public class Manifest
     {

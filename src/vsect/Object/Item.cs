@@ -1,4 +1,4 @@
-namespace Game.Object
+namespace VSect.Object
 {
     public class Item : Core.Object
     {

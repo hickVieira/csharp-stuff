@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace Game
+namespace VSect
 {
     public static class TypeMap
     {

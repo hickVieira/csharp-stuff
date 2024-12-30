@@ -1,7 +1,7 @@
-using Game.Core;
+using VSect.Core;
 using System.Collections.Generic;
 
-namespace Game.Object
+namespace VSect.Object
 {
     public class Character : Core.Object, I.Named, I.Lifeform, I.Damageable, I.Mage, I.Physical, I.Interactable
     {

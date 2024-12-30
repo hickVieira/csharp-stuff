@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Game.Core
+namespace VSect.Core
 {
     public abstract class Entity : I.Referenciable, I.Serializable
     {

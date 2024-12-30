@@ -7,7 +7,8 @@
 loadorder.txt (plugin load order) (maybe could make ops like add/mult)
 /base
     player.json
-    map.json
+    cell00.json
+    cell01.json
     ...
 /dlc1
     santa.json
@@ -31,9 +32,9 @@ init
         save_objects_to_gamestate
 */
 
-using Game.Object;
+using VSect.Object;
 
-namespace Game.Tests
+namespace VSect.Tests
 {
     public static class _
     {
@@ -119,6 +120,7 @@ namespace Game.Tests
                 Inventory = characterContainer.Ref(),
                 Equipped = new(),
             });
+            body.Character = character.Ref();
 
             System.Console.WriteLine("\ngun.SerializeToJson()\n" + gun.SerializeToJson());
             System.Console.WriteLine("\nSerde.Deserialize.FromJson<Gun>(gun.SerializeToJson())\n" + Serde.Deserialize.FromJson<Gun>(gun.SerializeToJson()).data.SerializeToJson());

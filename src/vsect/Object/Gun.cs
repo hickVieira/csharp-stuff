@@ -1,8 +1,8 @@
-using Game.Core;
+using VSect.Core;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Game.Object
+namespace VSect.Object
 {
     public class GunMod : Item, I.Named
     {

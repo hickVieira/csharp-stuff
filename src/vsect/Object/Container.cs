@@ -1,7 +1,7 @@
-using Game.Core;
+using VSect.Core;
 using System.Collections.Generic;
 
-namespace Game.Object
+namespace VSect.Object
 {
     public class Container : Core.Object, I.Storage
     {

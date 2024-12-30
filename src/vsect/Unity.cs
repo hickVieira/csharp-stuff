@@ -1,4 +1,4 @@
-namespace Game
+namespace VSect
 {
     public struct float3;
     public struct float4;

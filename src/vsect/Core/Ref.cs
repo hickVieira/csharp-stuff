@@ -1,7 +1,7 @@
-using Game.Core;
+using VSect.Core;
 using Newtonsoft.Json;
 
-namespace Game.Core
+namespace VSect.Core
 {
     public struct Ref<T> : I.Serializable where T : Entity
     {

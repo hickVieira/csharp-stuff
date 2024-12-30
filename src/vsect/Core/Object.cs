@@ -1,4 +1,4 @@
-namespace Game.Core
+namespace VSect.Core
 {
     public abstract class Object : Entity
     {

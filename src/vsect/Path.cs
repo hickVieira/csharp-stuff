@@ -1,4 +1,4 @@
-namespace Game
+namespace VSect
 {
     public static class Path
     {

@@ -1,6 +1,7 @@
+using VSect.Core;
 using System.Collections.Generic;
 
-namespace Game.Object
+namespace VSect.Object
 {
     public class BodyPartData : Core.Object
     {
@@ -10,6 +11,7 @@ namespace Game.Object
 
     public class Body : Core.Object
     {
+        public Ref<Character> Character { get; set; }
         public Dictionary<string, BodyPartData> BodyPartData { get; set; }
     }
 }
