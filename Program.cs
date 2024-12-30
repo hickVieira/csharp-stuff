@@ -4,7 +4,6 @@ static class Program
     {
         // GUID.test.run();
         // Memory.test.run();
-        // Jobs.test.run();
-        VSect.Tests._.Run();
+        Jobs.test.run();
     }
 }
